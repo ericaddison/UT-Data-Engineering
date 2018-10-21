@@ -42,8 +42,11 @@ public class Experiment {
 
             // create requested indexes
             Statement statement = connection.createStatement();
-            for (String column : options.indexColumns) {
-                statement.execute("CREATE INDEX " + column + "_index ON " + TABLE_NAME + " (" + column + ")");
+            if (options.physicalOrganization.columnA) {
+                statement.execute("CREATE INDEX columna_index ON " + TABLE_NAME + " (columnA)");
+            }
+            if (options.physicalOrganization.columnB) {
+                statement.execute("CREATE INDEX columnb_index ON " + TABLE_NAME + " (columnB)");
             }
             statement.close();
 
@@ -56,14 +59,48 @@ public class Experiment {
             Instant inOrderEnd = Instant.now();
             Duration dataLoadTime = Duration.between(inOrderStart, inOrderEnd);
 
+            int queryValue = (new Random()).nextInt(50000);
+
+            // query 1
+            Instant query1Start = Instant.now();
+            statement = connection.createStatement();
+            statement.execute("SELECT * FROM benchmark WHERE benchmark.columnA = " + queryValue);
+            Instant query1End = Instant.now();
+            Duration query1Time = Duration.between(query1Start, query1End);
+
+            // query 2
+            Instant query2Start = Instant.now();
+            statement = connection.createStatement();
+            statement.execute("SELECT * FROM benchmark WHERE benchmark.columnB = " + queryValue);
+            Instant query2End = Instant.now();
+            Duration query2Time = Duration.between(query2Start, query2End);
+
+            // query 3
+            Instant query3Start = Instant.now();
+            statement = connection.createStatement();
+            statement.execute("SELECT * FROM benchmark WHERE benchmark.columnA = " + queryValue
+                    + " AND benchmark.columnB = " + queryValue);
+            Instant query3End = Instant.now();
+            Duration query3Time = Duration.between(query3Start, query3End);
+
             // drop indexes
             statement = connection.createStatement();
-            for (String column : options.indexColumns) {
-                statement.execute("DROP INDEX " + column + "_index");
+            if (options.physicalOrganization.columnA) {
+                statement.execute("DROP INDEX columna_index");
+            }
+            if (options.physicalOrganization.columnB) {
+                statement.execute("DROP INDEX columnb_index");
             }
             statement.close();
 
-            return ExperimentResults.create(options, dataLoadTime, Duration.ofMillis(0));
+            // create and return results
+            return ExperimentResults.create(
+                    options,
+                    dataLoadTime,
+                    query1Time,
+                    query2Time,
+                    query3Time,
+                    queryValue);
 
         } catch (SQLException e) {
             e.printStackTrace();

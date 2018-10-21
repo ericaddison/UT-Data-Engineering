@@ -4,16 +4,16 @@ import com.google.common.collect.ImmutableList;
 
 public class ExperimentOptions {
     ExperimentRunner.KeyOrder keyOrder;
-    ImmutableList<String> indexColumns;
+    PhysicalOrganization physicalOrganization;
     int numRecords;
 
-    static ExperimentOptions create(ExperimentRunner.KeyOrder keyOrder, ImmutableList<String> indexColumns, int numRecords) {
-        return new ExperimentOptions(keyOrder, indexColumns, numRecords);
+    static ExperimentOptions create(ExperimentRunner.KeyOrder keyOrder, PhysicalOrganization physicalOrganization, int numRecords) {
+        return new ExperimentOptions(keyOrder, physicalOrganization, numRecords);
     }
 
-    private ExperimentOptions(ExperimentRunner.KeyOrder keyOrder, ImmutableList<String> indexColumns, int numRecords) {
+    private ExperimentOptions(ExperimentRunner.KeyOrder keyOrder, PhysicalOrganization physicalOrganization, int numRecords) {
         this.keyOrder = keyOrder;
-        this.indexColumns = indexColumns;
+        this.physicalOrganization = physicalOrganization;
         this.numRecords = numRecords;
     }
 
@@ -22,6 +22,6 @@ public class ExperimentOptions {
         return String.format("ExperimentOptions[%s, %s, %s]",
                 numRecords,
                 keyOrder,
-                indexColumns);
+                physicalOrganization);
     }
 }
