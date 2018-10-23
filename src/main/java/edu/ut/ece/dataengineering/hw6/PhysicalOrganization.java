@@ -1,4 +1,4 @@
-package edu.ut.ede.dataengineering.hw6;
+package edu.ut.ece.dataengineering.hw6;
 
 import java.sql.*;
 
@@ -38,7 +38,6 @@ public enum PhysicalOrganization {
 
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO physicalorg VALUES (?, ?, ?)");
 
-
             for (PhysicalOrganization org : PhysicalOrganization.values()) {
                 preparedStatement.setInt(1, org.id);
                 preparedStatement.setBoolean(2, org.columnA);
@@ -50,9 +49,5 @@ public enum PhysicalOrganization {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private static int boolToInt(boolean bool) {
-        return bool ? 1 : 0;
     }
 }

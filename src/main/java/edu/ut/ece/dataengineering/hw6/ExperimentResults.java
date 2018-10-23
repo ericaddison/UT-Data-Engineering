@@ -1,4 +1,4 @@
-package edu.ut.ede.dataengineering.hw6;
+package edu.ut.ece.dataengineering.hw6;
 
 import java.time.Duration;
 

@@ -18,3 +18,12 @@ dependencies {
     compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
     compile 'com.google.guava:guava:26.0-jre'
 }
+
+/**
+ * Run the database experiment
+ */
+task runExperiment(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'edu.ut.ede.dataengineering.hw6.ExperimentRunner'
+}
