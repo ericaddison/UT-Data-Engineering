@@ -25,5 +25,5 @@ dependencies {
 task runExperiment(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 
-    main = 'edu.ut.ede.dataengineering.hw6.ExperimentRunner'
+    main = 'edu.ut.ece.dataengineering.hw6.ExperimentRunner'
 }
